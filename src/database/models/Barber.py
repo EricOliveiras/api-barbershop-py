@@ -1,5 +1,7 @@
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.sql.sqltypes import TIMESTAMP, Date
+
+from sqlalchemy.sql.functions import now
+from sqlalchemy.sql.sqltypes import DateTime
 
 from src.database.config.connect import Base
 
@@ -10,5 +12,5 @@ class Barber(Base):
   name = Column(String(50), nullable=False)
   document = Column(String(20), nullable=False, unique=True)
   phone = Column(String(20), nullable=True)
-  create_at = Column(TIMESTAMP)
-  update_at = Column(TIMESTAMP)
+  create_at = Column(DateTime, default=now())
+  update_at = Column(DateTime, default=now())
