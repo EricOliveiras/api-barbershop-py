@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.sql.sqltypes import Date
+from sqlalchemy.sql.sqltypes import TIMESTAMP, Date
 
 from src.database.config.connect import Base
 
@@ -10,5 +10,5 @@ class Barber(Base):
   name = Column(String(50), nullable=False)
   document = Column(String(20), nullable=False, unique=True)
   phone = Column(String(20), nullable=True)
-  create_at = Column(Date)
-  update_at = Column(Date)
+  create_at = Column(TIMESTAMP)
+  update_at = Column(TIMESTAMP)
