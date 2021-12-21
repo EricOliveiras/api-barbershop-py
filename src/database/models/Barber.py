@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.sql.sqltypes import Date
 
-from src.database.config import Base
+from src.database.config.connect import Base
 
 class Barber(Base):
   __tablename__ = "barber"
