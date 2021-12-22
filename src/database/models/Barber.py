@@ -12,5 +12,5 @@ class Barber(Base):
   name = Column(String(50), nullable=False)
   document = Column(String(20), nullable=False, unique=True)
   phone = Column(String(20), nullable=True)
-  create_at = Column(DateTime, default=now())
-  update_at = Column(DateTime, default=now())
+  created_at = Column(DateTime, default=now())
+  updated_at = Column(DateTime, default=now())
