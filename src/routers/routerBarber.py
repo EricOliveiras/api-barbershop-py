@@ -14,3 +14,7 @@ def create_barber(barber: BarberBase, db: Session = Depends(get_db)):
 @router.get('/get-all-barbers')
 def get_all_barbers(db: Session = Depends(get_db)):
   return BarberController(db).get_all_barbers()
+
+@router.get('/get-barber-by-id/{id}')
+def get_barber_by_id(id: int, db: Session = Depends(get_db)):
+  return BarberController(db).get_barber_by_id(id)

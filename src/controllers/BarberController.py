@@ -27,6 +27,7 @@ class BarberController:
     else:
       return f'Barber already exists'
 
+
   def get_all_barbers(self):
 
     all_barbers = self.db.query(Barber).all()
@@ -35,3 +36,15 @@ class BarberController:
       return f'No barbers found'
     else:
       return all_barbers
+
+
+  def get_barber_by_id(self, id: int):
+
+    get_barber = self.db.query(Barber).filter(Barber.id == id).first()
+
+    if not get_barber:
+      return f'Barber not found'
+
+    return get_barber
+
+    
