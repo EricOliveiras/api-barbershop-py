@@ -3,7 +3,7 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.sql.functions import now
 from sqlalchemy.sql.sqltypes import DateTime
 
-from database.config.connect import Base
+from src.database.config.connect import Base
 
 
 class Client(Base):

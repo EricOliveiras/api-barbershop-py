@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session, query
+from sqlalchemy.orm import Session
 
 from src.database.models.Barber import Barber
 from src.database.schemas.BarberBase import Barber_Base, Barber_update
@@ -12,17 +12,17 @@ class BarberController:
     barber_exists = self.db.query(Barber).filter(Barber.document == Barber_Base.document).first()
 
     if not barber_exists:
-      db_barber = Barber(
+      new_barber = Barber(
         name = Barber_Base.name,
         document = Barber_Base.document,
         phone = Barber_Base.phone
       )
 
-      self.db.add(db_barber)
+      self.db.add(new_barber)
       self.db.commit()
-      self.db.refresh(db_barber)
+      self.db.refresh(new_barber)
 
-      return db_barber
+      return new_barber
 
     else:
       return f'Barber already exists'
