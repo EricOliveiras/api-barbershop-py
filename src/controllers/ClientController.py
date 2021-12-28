@@ -37,3 +37,52 @@ class ClientController:
       return 'No clients found'
     else:
       return get_clients
+
+
+  def get_client_by_id(self, id: int):
+
+    get_client = self.db.query(Client).filter(Client.id == id).first()
+
+    if not get_client:
+      return 'Client not found'
+    else:
+      return get_client
+
+
+  def get_client_by_email(self, email: str):
+
+    get_client = self.db.query(Client).filter(Client.email == email).first()
+
+    if not get_client:
+      return 'Client not found'
+    else:
+      return get_client
+
+
+  def update_client(self, id: int, client_update: Client_Update):
+
+    get_client = self.db.query(Client).filter(Client.id == id).first()
+
+    if not get_client:
+      return 'Client not found'
+
+    for key, value in client_update.__dict__.items():
+      setattr(get_client, key, value) if value else None
+
+    self.db.commit()
+    self.db.refresh(get_client)
+
+    return get_client
+
+
+  def delete_client(self, id: int):
+
+    get_client = self.db.query(Client).filter(Client.id == id).first()
+
+    if not get_client:
+      return 'Client not found'
+
+    self.db.delete(get_client)
+    self.db.commit()
+
+    return 'Client deleted'
