@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, Float, ForeignKey
 from sqlalchemy.sql.functions import now
 from sqlalchemy.sql.sqltypes import DateTime
 
-from database.config.connect import Base
+from src.database.config.connect import Base
 
 
 class Service(Base):
