@@ -8,6 +8,7 @@ from alembic import context
 from database.config.connect import Base
 from database.models.Client import Client
 from database.models.Barber import Barber
+from database.models.Service import Service
 
 
 # this is the Alembic Config object, which provides
