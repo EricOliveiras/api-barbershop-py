@@ -37,4 +37,13 @@ class ServiceController:
     if get_services.__len__ == 0:
       return 'No services found'
     else:
-      return get_services
+      return [
+        {
+        'id': service.id,
+        'price': service.price,
+        'barber': service.barber.name,
+        'client': service.client.name,
+        'created_at': service.created_at,
+        'updated_at': service.updated_at
+        } for service in get_services
+      ]
