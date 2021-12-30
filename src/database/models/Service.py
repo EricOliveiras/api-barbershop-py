@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, Float, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import now
 from sqlalchemy.sql.sqltypes import DateTime
 
@@ -15,3 +16,6 @@ class Service(Base):
   client_id = Column(Integer, ForeignKey("client.id"), nullable=False)
   created_at = Column(DateTime, default=now())
   updated_at = Column(DateTime, default=now(), onupdate=now())
+
+  barber = relationship("Barber", back_populates="services")
+  client = relationship("Client", back_populates="services")  

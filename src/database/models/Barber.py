@@ -1,8 +1,7 @@
 from sqlalchemy import Column, Integer, String
-
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import now
 from sqlalchemy.sql.sqltypes import DateTime
-
 from src.database.config.connect import Base
 
 
@@ -15,3 +14,5 @@ class Barber(Base):
   phone = Column(String(20), nullable=True)
   created_at = Column(DateTime, default=now())
   updated_at = Column(DateTime, default=now(), onupdate=now())
+
+  services = relationship("Service", back_populates="barber")
