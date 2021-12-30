@@ -5,11 +5,10 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from database.config.connect import Base
-from database.models.Client import Client
-from database.models.Barber import Barber
-from database.models.Service import Service
-
+from src.database.config.connect import Base
+from src.database.models.Barber import Barber
+from src.database.models.Client import Client
+from src.database.models.Service import Service
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
