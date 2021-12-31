@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 
 from src.database.models.Barber import Barber
 from src.database.schemas.BarberBase import Barber_Base, Barber_update
+from src.database.models.Service import Service
 
 class BarberController:
   def __init__(self, db: Session):
@@ -35,7 +36,22 @@ class BarberController:
     if all_barbers.__len__() == 0:
       return f'No barbers found'
     else:
-      return all_barbers
+      return [{
+        'id': barber.id,
+        'name': barber.name,
+        'document': barber.document,
+        'phone': barber.phone,
+        'created_at': barber.created_at,
+        'updated_at': barber.updated_at,
+        'services': [{
+          'id': service.id,
+          'price': service.price,
+          'client': service.client.name,
+          'created_at': service.created_at,
+          'updated_at': service.updated_at
+        } for service in barber.services] 
+      } for barber in all_barbers
+    ]
 
 
   def get_barber_by_id(self, id: int):
@@ -45,7 +61,21 @@ class BarberController:
     if not get_barber:
       return f'Barber not found'
 
-    return get_barber
+    return {
+      'id': get_barber.id,
+      'name': get_barber.name,
+      'document': get_barber.document,
+      'phone': get_barber.phone,
+      'created_at': get_barber.created_at,
+      'updated_at': get_barber.updated_at,
+      'services': [{
+        'id': service.id,
+        'price': service.price,
+        'client': service.client.name,
+        'created_at': service.created_at,
+        'updated_at': service.updated_at
+      } for service in get_barber.services]
+    }
 
     
   def get_barber_by_document(self, document: str):
