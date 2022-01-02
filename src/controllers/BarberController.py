@@ -36,10 +36,21 @@ class BarberController:
     if all_barbers.__len__() == 0:
       return f'No barbers found'
 
-    for barber in all_barbers:
-      barber.services = self.db.query(Service).filter(Service.barber_id == barber.id).all()
-    
-    return all_barbers
+    format_barbers = [{
+      'id': barber.id,
+      'name': barber.name,
+      'document': barber.document,
+      'phone': barber.phone,
+      'services': [{
+        'id': service.id,
+        'price': service.price,
+        'client': service.client.name,
+        'created_at': service.created_at,
+        'updated_at': service.updated_at  
+      } for service in barber.services]
+    } for barber in all_barbers]
+
+    return format_barbers
 
 
   def get_barber_by_id(self, id: int):
@@ -49,11 +60,21 @@ class BarberController:
     if not get_barber:
       return f'Barber not found'
 
-    services = self.db.query(Service).filter(Service.barber_id == get_barber.id).all()
-    
-    get_barber.services = services
+    format_barber = {
+      'id': get_barber.id,
+      'name': get_barber.name,
+      'document': get_barber.document,
+      'phone': get_barber.phone,
+      'services': [{
+        'id': service.id,
+        'price': service.price,
+        'client': service.client.name,
+        'created_at': service.created_at,
+        'updated_at': service.updated_at  
+      } for service in get_barber.services]
+    }
 
-    return get_barber
+    return format_barber
 
     
   def get_barber_by_document(self, document: str):
@@ -63,7 +84,21 @@ class BarberController:
     if not get_barber:
       return f'Barber not found'
 
-    return get_barber
+    format_barber = {
+      'id': get_barber.id,
+      'name': get_barber.name,
+      'document': get_barber.document,
+      'phone': get_barber.phone,
+      'services': [{
+        'id': service.id,
+        'price': service.price,
+        'client': service.client.name,
+        'created_at': service.created_at,
+        'updated_at': service.updated_at  
+      } for service in get_barber.services]
+    }
+
+    return format_barber
 
 
   def update_barber(self, id: int, Barber_update: Barber_update):
