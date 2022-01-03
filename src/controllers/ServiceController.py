@@ -79,7 +79,7 @@ class ServiceController:
 
     format_date = f'{year}-{month}-{day}'
       
-    get_services = self.db.query(Service).filter(text("date(created_at) = '{}'".format(format_date))).all()
+    get_services = self.db.query(Service).filter(text(f"date(created_at) = '{format_date}'")).all()
 
     if get_services.__len__ == 0:
       return 'No services found'
