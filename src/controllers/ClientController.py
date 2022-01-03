@@ -35,8 +35,24 @@ class ClientController:
 
     if get_clients.__len__ == 0:
       return 'No clients found'
-    else:
-      return get_clients
+    
+    format_clients = [{
+      'id': client.id,
+      'name': client.name,
+      'email': client.email,
+      'phone': client.phone,
+      'created_at': client.created_at,
+      'updated_at': client.updated_at,
+      'services': [{
+        'id': service.id,
+        'price': service.price,
+        'barber': service.barber.name,
+        'created_at': service.created_at,
+        'updated_at': service.updated_at
+      } for service in client.services]
+    } for client in get_clients]
+
+    return format_clients
 
 
   def get_client_by_id(self, id: int):
@@ -45,8 +61,24 @@ class ClientController:
 
     if not get_client:
       return 'Client not found'
-    else:
-      return get_client
+    
+    format_client = {
+      'id': get_client.id,
+      'name': get_client.name,
+      'email': get_client.email,
+      'phone': get_client.phone,
+      'created_at': get_client.created_at,
+      'updated_at': get_client.updated_at,
+      'services': [{
+        'id': service.id,
+        'price': service.price,
+        'barber': service.barber.name,
+        'created_at': service.created_at,
+        'updated_at': service.updated_at
+      } for service in get_client.services]
+    }
+
+    return format_client  
 
 
   def get_client_by_email(self, email: str):
@@ -55,8 +87,24 @@ class ClientController:
 
     if not get_client:
       return 'Client not found'
-    else:
-      return get_client
+    
+    format_client = {
+      'id': get_client.id,
+      'name': get_client.name,
+      'email': get_client.email,
+      'phone': get_client.phone,
+      'created_at': get_client.created_at,
+      'updated_at': get_client.updated_at,
+      'services': [{
+        'id': service.id,
+        'price': service.price,
+        'barber': service.barber.name,
+        'created_at': service.created_at,
+        'updated_at': service.updated_at
+      } for service in get_client.services]
+    }
+
+    return format_client  
 
 
   def update_client(self, id: int, client_update: Client_Update):
