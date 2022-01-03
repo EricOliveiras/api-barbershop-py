@@ -1,3 +1,4 @@
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from src.database.models.Service import Service
@@ -36,14 +37,90 @@ class ServiceController:
 
     if get_services.__len__ == 0:
       return 'No services found'
-    else:
-      return [
-        {
-        'id': service.id,
-        'price': service.price,
-        'barber': service.barber.name,
-        'client': service.client.name,
-        'created_at': service.created_at,
-        'updated_at': service.updated_at
-        } for service in get_services
-      ]
+    
+    format_services = [{
+      'id': service.id,
+      'price': service.price,
+      'barber': service.barber.name,
+      'client': service.client.name,
+      'created_at': service.created_at,
+      'updated_at': service.updated_at
+      } for service in get_services
+    ]
+
+    return format_services
+
+
+  def get_service_by_id(self, id: int):
+      
+    get_service = self.db.query(Service).filter(Service.id == id).first()
+
+    if not get_service:
+      return 'Service not found'
+
+    format_service = {
+      'id': get_service.id,
+      'price': get_service.price,
+      'barber': get_service.barber.name,
+      'client': get_service.client.name,
+      'created_at': get_service.created_at,
+      'updated_at': get_service.updated_at
+    }
+
+    return format_service
+
+
+  def get_service_by_date(self, date: str):
+
+    get_date = date.split('-')
+    day = get_date[0]
+    month = get_date[1]
+    year = get_date[2]
+
+    format_date = f'{year}-{month}-{day}'
+      
+    get_services = self.db.query(Service).filter(text("date(created_at) = '{}'".format(format_date))).all()
+
+    if get_services.__len__ == 0:
+      return 'No services found'
+
+    format_services = [{
+      'id': service.id,
+      'price': service.price,
+      'barber': service.barber.name,
+      'client': service.client.name,
+      'created_at': service.created_at,
+      'updated_at': service.updated_at
+      } for service in get_services
+    ]
+
+    return format_services
+
+
+  def update_service(self, id: int, Service_Update: Service_Update):
+
+    get_service = self.db.query(Service).filter(Service.id == id).first()
+
+    if not get_service:
+      return 'Service not found'
+
+    for key, value in Service_Update.__dict__.items():
+      setattr(get_service, key, value)
+
+    self.db.commit()
+    self.db.refresh(get_service)
+
+    return get_service
+
+
+  def delete_service(self, id: int):
+
+    get_service = self.db.query(Service).filter(Service.id == id).first()
+
+    if not get_service:
+      return 'Service not found'
+
+    self.db.delete(get_service)
+    self.db.commit()
+
+    return 'Service deleted'
