@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import now
 from sqlalchemy.sql.sqltypes import DateTime
+
 from src.database.config.connect import Base
 
 

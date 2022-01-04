@@ -1,7 +1,6 @@
-from sqlalchemy import Column, Integer, Float, ForeignKey
+from sqlalchemy import Column, Integer, Float, ForeignKey, DateTime 
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import now
-from sqlalchemy.sql.sqltypes import DateTime
 
 from src.database.config.connect import Base
 
@@ -19,3 +18,4 @@ class Service(Base):
 
   barber = relationship("Barber", back_populates="services")
   client = relationship("Client", back_populates="services")  
+  payment = relationship("Payment", back_populates="services")

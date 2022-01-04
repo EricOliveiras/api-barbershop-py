@@ -1,7 +1,7 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.functions import now
-from sqlalchemy.sql.sqltypes import DateTime
+
 from src.database.config.connect import Base
 
 
@@ -16,3 +16,4 @@ class Barber(Base):
   updated_at = Column(DateTime, default=now(), onupdate=now())
 
   services = relationship("Service", back_populates="barber")
+  payment = relationship("Payment", back_populates="barber")
