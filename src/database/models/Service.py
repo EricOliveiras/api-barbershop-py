@@ -17,5 +17,4 @@ class Service(Base):
   updated_at = Column(DateTime, default=now(), onupdate=now())
 
   barber = relationship("Barber", back_populates="services")
-  client = relationship("Client", back_populates="services")  
-  payment = relationship("Payment", back_populates="services")
+  client = relationship("Client", back_populates="services")

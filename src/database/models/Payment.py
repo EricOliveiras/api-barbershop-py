@@ -14,5 +14,4 @@ class Payment(Base):
   created_at = Column(DateTime, default=now())
   updated_at = Column(DateTime, default=now(), onupdate=now())
 
-  services = relationship("Service", back_populates="payment")
   barber = relationship("Barber", back_populates="payment")
