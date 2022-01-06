@@ -2,7 +2,6 @@ from sqlalchemy.orm import Session
 
 from src.database.models.Barber import Barber
 from src.database.schemas.BarberBase import Barber_Base, Barber_update
-from src.database.models.Service import Service
 
 class BarberController:
   def __init__(self, db: Session):
@@ -47,7 +46,13 @@ class BarberController:
         'client': service.client.name,
         'created_at': service.created_at,
         'updated_at': service.updated_at  
-      } for service in barber.services]
+      } for service in barber.services],
+      'payment': [{
+        'id': payment.id,
+        'total_payment': payment.total_payment,
+        'created_at': payment.created_at,
+        'updated_at': payment.updated_at
+      } for payment in barber.payment]
     } for barber in all_barbers]
 
     return format_barbers
@@ -71,12 +76,48 @@ class BarberController:
         'client': service.client.name,
         'created_at': service.created_at,
         'updated_at': service.updated_at  
-      } for service in get_barber.services]
+      } for service in get_barber.services],
+      'payment': [{
+        'id': payment.id,
+        'total_payment': payment.total_payment,
+        'created_at': payment.created_at,
+        'updated_at': payment.updated_at
+      } for payment in get_barber.payment]
     }
 
     return format_barber
 
     
+  def get_barber_by_name(self, name: str):
+      
+    get_barber = self.db.query(Barber).filter(Barber.name.like(f'%{name}%')).all()
+
+    if not get_barber:
+      return f'Barber not found'
+
+    format_barber = [{
+      'id': barber.id,
+      'name': barber.name,
+      'document': barber.document,
+      'phone': barber.phone,
+      'services': [{
+        'id': service.id,
+        'price': service.price,
+        'client': service.client.name,
+        'created_at': service.created_at,
+        'updated_at': service.updated_at  
+      } for service in barber.services],
+      'payment': [{
+        'id': payment.id,
+        'total_payment': payment.total_payment,
+        'created_at': payment.created_at,
+        'updated_at': payment.updated_at
+      } for payment in barber.payment]
+    } for barber in get_barber]
+
+    return format_barber
+
+
   def get_barber_by_document(self, document: str):
 
     get_barber = self.db.query(Barber).filter(Barber.document == document).first()
@@ -104,9 +145,13 @@ class BarberController:
   def update_barber(self, id: int, Barber_update: Barber_update):
 
     barber = self.db.query(Barber).filter(Barber.id == id).first()
+    document_exists = self.db.query(Barber).filter(Barber.document == Barber_update.document).first()
 
     if not barber:
       return f'Barber not found'
+    
+    if document_exists:
+      return f'Document already exists in another barber'
 
     for key, value in Barber_update.__dict__.items():
       setattr(barber, key, value) if value else None

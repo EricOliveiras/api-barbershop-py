@@ -23,6 +23,11 @@ def get_barber_by_id(id: int, db: Session = Depends(get_db)):
   return BarberController(db).get_barber_by_id(id)
 
 
+@router_barber.get('/get-barber-by-name/{name}')
+def get_barber_by_name(name: str, db: Session = Depends(get_db)):
+  return BarberController(db).get_barber_by_name(name)
+  
+
 @router_barber.get('/get-barber-by-document/{document}')
 def get_barber_by_document(document: str, db: Session = Depends(get_db)):
   return BarberController(db).get_barber_by_document(document)

@@ -1,4 +1,3 @@
-from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from src.database.models.Service import Service
@@ -79,7 +78,7 @@ class ServiceController:
 
     format_date = f'{year}-{month}-{day}'
       
-    get_services = self.db.query(Service).filter(text(f"date(created_at) = '{format_date}'")).all()
+    get_services = self.db.query(Service).filter(Service.created_at.like(f'%{format_date}%')).all()
 
     if get_services.__len__ == 0:
       return 'No services found'
