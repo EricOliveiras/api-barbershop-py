@@ -11,3 +11,8 @@ router_payment = APIRouter()
 @router_payment.post('/create-payment')
 def create_payment(payment: Payment_Base, db: Session = Depends(get_db)):
   return PaymentController(db).create_payment(payment)
+
+
+@router_payment.get('/get-all-payments')
+def get_all_payments(db: Session = Depends(get_db)):
+  return PaymentController(db).get_all_payments()

@@ -13,10 +13,8 @@ class PaymentController:
 
   def create_payment(self, payment_base: Payment_Base):
 
-    id_barber = payment_base.barber_id  
-
-    get_barber = self.db.query(Barber).filter(Barber.id == id_barber).first()
-    get_services = self.db.query(Service).filter(Service.barber_id == id_barber).all()
+    get_barber = self.db.query(Barber).filter(Barber.id == payment_base.barber_id).first()
+    get_services = self.db.query(Service).filter(Service.barber_id == payment_base.barber_id).all()
 
     if not get_barber:
       return 'Barber not found'
@@ -31,7 +29,7 @@ class PaymentController:
       return 'There is not enough value to generate payment'
 
     new_payment = Payment(
-      barber_id = id_barber,
+      barber_id = payment_base.barber_id,
       total_payment = total_payment,
     )
 
@@ -41,10 +39,38 @@ class PaymentController:
 
     format_payment = {
       'id': new_payment.id,
-      'barber_id': id_barber,
+      'barber_id': new_payment.barber_id,
+      'barber_name': get_barber.name,
       'total_payment': total_payment,
       'created_at': new_payment.created_at,
       'updated_at': new_payment.updated_at
     }
 
     return format_payment
+
+
+  def get_all_payments(self):
+      
+    get_payments = self.db.query(Payment).all()
+
+    if get_payments.__len__ == 0:
+      return 'No payments found'
+
+    format_payments = [{
+      'id': payment.id,
+      'barber_id': payment.barber_id,
+      'barber_name': payment.barber.name,
+      'total_payment': payment.total_payment,
+      'created_at': payment.created_at,
+      'updated_at': payment.updated_at,
+      'services': [{
+        'id': payment.services.id,
+        'price': payment.services.price,
+        'barber': payment.services.barber.name,
+        'created_at': payment.services.created_at,
+        'updated_at': payment.services.updated_at
+      } for service in payment.services]
+    } for payment in get_payments
+    ]
+
+    return format_payments  
