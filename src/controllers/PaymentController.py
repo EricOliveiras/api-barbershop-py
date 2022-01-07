@@ -31,6 +31,7 @@ class PaymentController:
     new_payment = Payment(
       barber_id = payment_base.barber_id,
       total_payment = total_payment,
+      services = get_services
     )
 
     self.db.add(new_payment)
@@ -62,14 +63,7 @@ class PaymentController:
       'barber_name': payment.barber.name,
       'total_payment': payment.total_payment,
       'created_at': payment.created_at,
-      'updated_at': payment.updated_at,
-      'services': [{
-        'id': payment.services.id,
-        'price': payment.services.price,
-        'barber': payment.services.barber.name,
-        'created_at': payment.services.created_at,
-        'updated_at': payment.services.updated_at
-      } for service in payment.services]
+      'updated_at': payment.updated_at
     } for payment in get_payments
     ]
 

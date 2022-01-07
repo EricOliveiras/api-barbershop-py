@@ -4,6 +4,8 @@ from sqlalchemy.sql.functions import now
 from sqlalchemy.sql.sqltypes import Float
 
 from src.database.config.connect import Base
+from src.database.models.Service import Service
+
 
 class Payment(Base):
   __tablename__ = "payment"
@@ -15,4 +17,4 @@ class Payment(Base):
   updated_at = Column(DateTime, default=now(), onupdate=now())
 
   barber = relationship("Barber", back_populates="payment")
-  services = relationship("Service", back_populates="payment")
+  services = relationship("Service", foreign_keys=[Service.payment_id], back_populates="payment")
