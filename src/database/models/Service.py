@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, Float, ForeignKey, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import joinedload, relationship
 from sqlalchemy.sql.functions import now
 
 from src.database.config.connect import Base
@@ -19,4 +19,3 @@ class Service(Base):
 
   barber = relationship("Barber", back_populates="services")
   client = relationship("Client", back_populates="services")
-  payment = relationship("Payment", back_populates="services")

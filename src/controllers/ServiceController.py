@@ -44,7 +44,8 @@ class ServiceController:
       'barber': service.barber.name,
       'client': service.client.name,
       'created_at': service.created_at,
-      'updated_at': service.updated_at
+      'updated_at': service.updated_at,
+      'payment': service.payment.id
       } for service in get_services
     ]
 
